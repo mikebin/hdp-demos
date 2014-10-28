@@ -63,3 +63,7 @@ jar.dependsOn(shadowJar)
 tasks.withType(ScalaCompile) {
   scalaCompileOptions.useAnt = false
 }
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.1'
+}
