@@ -6,7 +6,7 @@ This demo executes a simple iterative process - K-Means Clustering - using embed
 Running the Demo
 ----------------
 
-1. Run ```./gradlew build``` to compile and package the Java UDF.
+1. Run `./gradlew build` to compile and package the Java UDF.
 
 2. Put the test data set - **student.txt** - into your home directory in HDFS
 
@@ -14,9 +14,9 @@ Running the Demo
 
 | Mode | Command |
 ------- | ---------
-| Pig with MapReduce |```PIG_OPTS="-Dpython.cachedir.skip=true" pig kmeans.py``` |
-| Pig with Tez|```PIG_OPTS="-Dpython.cachedir.skip=true" pig -x tez kmeans.py``` |
-| Local Mode Pig | ```PIG_OPTS="-Dpython.cachedir.skip=true" pig -x local kmeans.py``` |
+| Pig with MapReduce |`PIG_OPTS="-Dpython.cachedir.skip=true" pig kmeans.py` |
+| Pig with Tez| `PIG_OPTS="-Dpython.cachedir.skip=true" pig -x tez kmeans.py` |
+| Local Mode Pig | `PIG_OPTS="-Dpython.cachedir.skip=true" pig -x local kmeans.py` |
 
 Local mode will by far be the fastest option with the small sample data set, but the interesting comparison is between Pig on MR and Pig on Tez. Expect to see Pig on Tez perform 3-5x faster than Pig on MR. The larger and more iterative the process, the more significant this performance boost will be, due to session/container re-use and in-memory caching performed by Tez.
 
