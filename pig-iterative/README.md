@@ -1,16 +1,14 @@
 Iterative Pig 
 ========================
 
-This demo executes a simple iterative process - K-Means Clustering - using embedded Pig. The driver program which manages the iterative execution is a simple Jython script, which internally invokes Pig Latin for each iteration. The Pig Latin in turn invokes a Java-based UDF to compute the nearest centroid for each data point.
+This demo executes a simple iterative process - K-Means Clustering - using embedded Pig. The driver program which manages the iterative execution is a simple Jython script, which internally invokes Pig Latin for each iteration. The Pig Latin in turn invokes a Jython-based UDF (contained in the same source file as the driver program - kmeans.py) to compute the nearest centroid for each data point.
 
 Running the Demo
 ----------------
 
-1. Run `./gradlew build` to compile and package the Java UDF.
+1. Put the test data set - **student.txt** - into your home directory in HDFS
 
-2. Put the test data set - **student.txt** - into your home directory in HDFS
-
-3. Run one of the following commands to execute the process:
+2. Run one of the following commands to execute the process:
 
 | Mode | Command |
 ------- | ---------
