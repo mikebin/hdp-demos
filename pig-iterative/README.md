@@ -1,7 +1,7 @@
 Iterative Pig 
 ========================
 
-This demo executes a simple iterative process - K-Means Clustering - using embedded Pig. The driver program which manages the iterative execution is a simple Jython script, which internally invokes Pig Latin with Tez for each iteration. The Pig Latin in turn invokes a Java-based UDF to compute the nearest centroid for each data point.
+This demo executes a simple iterative process - K-Means Clustering - using embedded Pig. The driver program which manages the iterative execution is a simple Jython script, which internally invokes Pig Latin for each iteration. The Pig Latin in turn invokes a Java-based UDF to compute the nearest centroid for each data point.
 
 Running the Demo
 ----------------
