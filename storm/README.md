@@ -6,7 +6,7 @@ This project contains some simple examples for Apache Storm. In order to run the
 Running the Samples
 -------------------
 
-1. Run `./gradlew build` to compile and package the application jar. Storm needs all dependencies in the application jar, so the build script creates a "far jar", shading all depedendent libraries.
+1. Run `./gradlew build` to compile and package the application jar. Storm needs all dependencies in the application jar, so the build script creates a "fat jar", shading all depedendent libraries.
 
 2. Run one of the following commands to execute the process. If the `-local` option is specified, the topology will run in a single process on your local machine; otherwise, the topology will be submitted to the Nimbus for your Storm cluster, and execute as a distributed process.
 
