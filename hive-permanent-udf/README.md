@@ -9,7 +9,7 @@ This demo assumes you're using Hive 0.14+, which is available in HDP 2.2+. Certa
 
 To run the demo, perform the following steps:
 
-- From the project directory, run `./gradlew build` to compile and package the fat jar for the UDF.
+- From the project directory, run `./gradlew build` to compile and package the fat jar for the UDF. The jar file will be created in the current directory with the name `time-udf.jar`.
 
 - Connect to Hive using the Hive CLI or Beeline. We'll show Beeline here, as it is the preferred Hive client: 
 
