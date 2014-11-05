@@ -1,0 +1,36 @@
+project.ext.archiveName = 'time-udf.jar'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
+archivesBaseName = 'time-udf'
+
+configurations {
+  dependent
+  compile { extendsFrom dependent }
+}
+
+repositories {
+  mavenLocal()
+  jcenter()
+}
+
+dependencies {
+  compile "org.apache.hive:hive-exec:0.13.1"
+  dependent "joda-time:joda-time:2.5"
+}
+
+jar {
+  doFirst {
+    into('lib') { from configurations.dependent }
+  }
+  destinationDir = new File("${project.projectDir}")
+}
+
+task wrapper(type: Wrapper) {
+  gradleVersion = '2.1'
+}
+
+
