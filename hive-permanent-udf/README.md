@@ -13,26 +13,26 @@ To run the demo, perform the following steps:
 
 - Connect to Hive using the Hive CLI or Beeline. We'll show Beeline here, as it is the preferred Hive client: 
 
-```beeline --silent -u "jdbc:hive2://127.0.0.1:10000/default;auth=noSasl" -n root -p ''```
+  ```beeline --silent -u "jdbc:hive2://127.0.0.1:10000/default;auth=noSasl" -n root -p ''```
 
-Change the hostname, database name, and userid/password as appropriate for your environment.
+  Change the hostname, database name, and userid/password as appropriate for your environment.
 
 - Copy the UDF jar to a folder in HDFS. For example: 
 
-```hadoop fs -put time-udf.jar /user/root/udfs```
+  ```hadoop fs -put time-udf.jar /user/root/udfs```
 
 - Register the new permanent function: 
 
-```create function tminus3hours as 'udf.TimeMinusThreeHours' using jar 'hdfs:///user/root/udfs/time-udf.jar';```
+  ```create function tminus3hours as 'udf.TimeMinusThreeHours' using jar 'hdfs:///user/root/udfs/time-udf.jar';```
 
-Change the path to the UDF accordingly.
+  Change the path to the UDF accordingly.
 
 - Describe the function: 
 
-```describe function extended tminus3hours;```
+  ```describe function extended tminus3hours;```
 
 - Execute the function 
 
-```select tminus3hours('05-18-2014-09:24:00');```
+  ```select tminus3hours('05-18-2014-09:24:00');```
 
 - Create another Hive session (using Beeline or the Hive CLI) from another terminal, and verify that you are still able to see and execute the function.
