@@ -49,7 +49,7 @@ This tells Sqoop where to find the credential store in HDFS.
 ```
 This tells Sqoop which credential alias in the credential store contains the database password to use.
 
-Run the script:
+After making any needed modifications, run the script:
 
 ```
 ./sqoop-secure.sh
