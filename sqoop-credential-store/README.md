@@ -12,7 +12,7 @@ Use the following command-line utility to create a new credential store in HDFS,
 hadoop credential create mysql.password -provider jceks://hdfs/user/root/credentials/credentials.jceks
 ```
 
-Modify the HDFS filesystem path accordingly in this command for your environment. You will be prompted to enter the password you want to store twice. The example Sqoop job below imports a table from the Hive metastore DB, so you can add the hive DB password here. 
+Modify the HDFS filesystem path accordingly in this command for your environment. You will be prompted to enter the password you want to store twice. The example Sqoop job below imports a table from the Hive metastore DB, so you can enter the hive DB password here. 
 
 The stored credential can subsequently be accessed by applications or tools like Sqoop using the *alias* name you provided, which in this case is `mysql.password`.
 
