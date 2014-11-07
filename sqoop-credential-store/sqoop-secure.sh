@@ -12,7 +12,7 @@ sqoop import \
   -Dhadoop.security.credential.provider.path=jceks://hdfs/user/root/credentials/credentials.jceks \
   -libjars $LIB_JARS \
   --verbose \
-  --connect 'jdbc:mysql://hd-poc-02.unix.gsm1900.org/hive' \
+  --connect 'jdbc:mysql://localhost/hive' \
   --table TBLS \
   --username hive \
   --password-alias mysql.password \
