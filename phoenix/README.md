@@ -20,7 +20,8 @@ Phoenix is primarily a client-side tool, but it does require some coprocessors t
 - Link the Phoenix coprocessors into the HBase RegionServer classpath. Run the following command on all RegionServer hosts:
 
   ```
-  ln -sf `ls /usr/hdp/current/phoenix-client/lib/phoenix-core*jar | grep -vi sources | grep -vi tests` /usr/hdp/current/hbase-regionserver/lib/phoenix.jar 
+  ln -sf `ls /usr/hdp/current/phoenix-client/lib/phoenix-core*jar | \
+  grep -vi sources | grep -vi tests` /usr/hdp/current/hbase-regionserver/lib/phoenix.jar 
   ```
   
   This assumes that Phoenix is installed on all RegionServer hosts. If that's not the case, you'll need to distribute the jar file in a different way.
@@ -40,7 +41,7 @@ Phoenix is primarily a client-side tool, but it does require some coprocessors t
 
 - Restart all RegionServers to apply the changes made above.
 
-The HDP documentation has more detail on installing and configuring Phoenix, including more detail on how to configure Phoenix in a secure cluster.
+The HDP documentation has more detail on installing and configuring Phoenix, including information on how to configure Phoenix in a secure cluster.
 
 Running Phoenix SQLLine
 -----------------------
@@ -90,7 +91,8 @@ Let's create a table, load some data, and execute some SQL queries against the d
 - Create a table called `salaries`
 
   ```
-  create table salaries (id integer not null primary key, gender char(1), age integer, salary integer, zip integer);
+  create table salaries (id integer not null primary key, gender char(1), 
+    age integer, salary integer, zip integer);
   ```
 
   Notice, just like with a traditional database, we define columns with datatypes, and a primary key for the table. The primary key column(s) map to the rowkey in HBase.
