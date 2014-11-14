@@ -1,5 +1,10 @@
 drop table if exists salaries;
-create external table salaries (id int, gender char(1), age int, salary double, zipcode int, meanAgeDiffForZip int) STORED BY 'org.apache.hadoop.hive.hbase.HBaseStorageHandler' WITH SERDEPROPERTIES ('hbase.columns.mapping' = ':key,cf1:gender,cf1:age,cf1:salary,cf1:zipcode,cf1:meanAgeDiffForZip') TBLPROPERTIES ('hbase.table.name' = 'salaries');
+create external table salaries (id int, gender char(1), age int, 
+                                salary double, zipcode int, meanAgeDiffForZip int) 
+STORED BY 'org.apache.hadoop.hive.hbase.HBaseStorageHandler' 
+WITH SERDEPROPERTIES ('hbase.columns.mapping' = 
+                      ':key,cf1:gender,cf1:age,cf1:salary,cf1:zipcode,cf1:meanAgeDiffForZip') 
+TBLPROPERTIES ('hbase.table.name' = 'salaries');
 
 set hive.execution.engine=tez;
 select gender, zipcode, avg(salary) from salaries group by gender, zipcode;
