@@ -151,7 +151,7 @@ This creates a Hive table called `salaries` which maps to a table with the same 
 
 ```
 set hive.execution.engine=tez;
-select gender, zipcode, sum(salary) from salaries group by gender, zipcode;
+select gender, zipcode, avg(salary) from salaries group by gender, zipcode;
 ```
 
 After setting the execution engine to Tez (MR is the default in Hive 0.14), we run a simple grouping/aggregate computation across all the data in the HBase table, computing average salary by `zipcode` and `gender`. 
