@@ -1,6 +1,5 @@
 salaries = load 'hbase://salaries' 
-using org.apache.pig.backend.hadoop.hbase.HBaseStorage
-('cf1:gender cf1:age cf1:salary cf1:zipcode', '-loadKey true') 
+using org.apache.pig.backend.hadoop.hbase.HBaseStorage('cf1:gender cf1:age cf1:salary cf1:zipcode', '-loadKey true') 
 as (id: int, gender:chararray, age: int, salary: double, zipcode: int);
 
 salariesByZip = group salaries by zipcode;
