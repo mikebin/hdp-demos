@@ -3,7 +3,7 @@ HBase and Hadoop
 
 These demos will walk through a few simple examples of accessing/manipulating HBase data with traditional Hadoop tools such as Sqoop, Pig, and Hive.
 
-The instructions are written for HDP 2.2+ (HBase 0.98.4+, Pig 0.14.0+, Hive 0.14.0+). You may be able to run these demos on older versions, but you may be required to perform more manual steps to setup classpaths for Sqoop, Pig, and Hive, and use MR instead of Tez.
+The instructions are written for HDP 2.2+ (HBase 0.98.4+, Pig 0.14.0+, Hive 0.14.0+). You may be able to run these demos on older versions, but you'll likely be required to perform more manual steps to setup classpaths for Sqoop, Pig, and Hive, and use MR instead of Tez.
 
 To make this demo simpler, run all the steps from a node which has all of the following client tools installed:
 
@@ -12,7 +12,7 @@ To make this demo simpler, run all the steps from a node which has all of the fo
 - Sqoop
 - HBase
 
-Create an HBase Table
+Create an HBase table
 ---------------------
 
 For this demo, we will create a single HBase table called `salaries`. 
@@ -31,7 +31,7 @@ For this demo, we will create a single HBase table called `salaries`.
 
 - Keep this HBase Shell session open in a terminal window for later
 
-Load Data into the HBase Table with Sqoop
+Load Data into the HBase table with Sqoop
 -----------------------------------------
 
 In this step, we're going to import some data from a RDBMS into the `salaries` table in HBase. We'll use MySQL, since it's most likely already available in your cluster as the Hive metastore DB. Let's create a table and load it up with some data. We've provided a script and sample data for you to use.
@@ -71,7 +71,8 @@ In this step, we're going to import some data from a RDBMS into the `salaries` t
 - Run a Sqoop import job to load the data from MySQL into the HBase `salaries` table.
 
   ```
-   sqoop import --connect jdbc:mysql://localhost/test --username root --table salaries --hbase-table salaries --column-family cf1 --hbase-row-key id -m 1
+   sqoop import --connect jdbc:mysql://localhost/test --username root \
+   --table salaries --hbase-table salaries --column-family cf1 --hbase-row-key id -m 1
   ``` 
 
 - After the Sqoop import completes, go back to your HBase Shell session, and run the following command to verify the data in the `salaries` table:
@@ -138,17 +139,22 @@ Now that we've completed the ETL on our `salaries` table in HBase using Pig, we'
 So let's create a Hive table which maps to the HBase table. Provided for you is a script - `salaries.hive` - which creates the Hive table, then runs a simple SQL query using the Tez execution engine. Review the statements in this script:
 
 ```
-create external table salaries (id int, gender char(1), age int, salary double, zipcode int, meanAgeDiffForZip int) STORED BY 'org.apache.hadoop.hive.hbase.HBaseStorageHandler' WITH SERDEPROPERTIES ('hbase.columns.mapping' = ':key,cf1:gender,cf1:age,cf1:salary,cf1:zipcode,cf1:meanAgeDiffForZip') TBLPROPERTIES ('hbase.table.name' = 'salaries');
+create external table salaries (id int, gender char(1), age int, 
+                                salary double, zipcode int, meanAgeDiffForZip int) 
+STORED BY 'org.apache.hadoop.hive.hbase.HBaseStorageHandler' 
+WITH SERDEPROPERTIES ('hbase.columns.mapping' = 
+                      ':key,cf1:gender,cf1:age,cf1:salary,cf1:zipcode,cf1:meanAgeDiffForZip') 
+TBLPROPERTIES ('hbase.table.name' = 'salaries');
 ```
 
 This creates a Hive table called `salaries` which maps to a table with the same name in HBase. Notice the Hive to HBase column mappings in the DDL.
 
 ```
 set hive.execution.engine=tez;
-select gender, zipcode, sum(salary) from salaries group by gender, zipcode;
+select gender, zipcode, avg(salary) from salaries group by gender, zipcode;
 ```
 
-After setting the execution engine to Tez (MR is the default in Hive 0.14), we run a simple grouping/aggregate computation across all the data in the HBase table, computing average salary by zipcode and gender. 
+After setting the execution engine to Tez (MR is the default in Hive 0.14), we run a simple grouping/aggregate computation across all the data in the HBase table, computing average salary by `zipcode` and `gender`. 
 
 Let's run the Hive script:
 
