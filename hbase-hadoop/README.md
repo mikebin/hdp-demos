@@ -12,7 +12,7 @@ To make this demo simpler, run all the steps from a node which has all of the fo
 - Sqoop
 - HBase
 
-Create an HBase Table
+Create an HBase table
 ---------------------
 
 For this demo, we will create a single HBase table called `salaries`. 
@@ -31,7 +31,7 @@ For this demo, we will create a single HBase table called `salaries`.
 
 - Keep this HBase Shell session open in a terminal window for later
 
-Load Data into the HBase Table with Sqoop
+Load Data into the HBase table with Sqoop
 -----------------------------------------
 
 In this step, we're going to import some data from a RDBMS into the `salaries` table in HBase. We'll use MySQL, since it's most likely already available in your cluster as the Hive metastore DB. Let's create a table and load it up with some data. We've provided a script and sample data for you to use.
