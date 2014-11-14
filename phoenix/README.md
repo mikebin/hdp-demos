@@ -20,7 +20,8 @@ Phoenix is primarily a client-side tool, but it does require some coprocessors t
 - Link the Phoenix coprocessors into the HBase RegionServer classpath. Run the following command on all RegionServer hosts:
 
   ```
-  ln -sf `ls /usr/hdp/current/phoenix-client/lib/phoenix-core*jar | grep -vi sources | grep -vi tests` /usr/hdp/current/hbase-regionserver/lib/phoenix.jar 
+  ln -sf `ls /usr/hdp/current/phoenix-client/lib/phoenix-core*jar | \
+  grep -vi sources | grep -vi tests` /usr/hdp/current/hbase-regionserver/lib/phoenix.jar 
   ```
   
   This assumes that Phoenix is installed on all RegionServer hosts. If that's not the case, you'll need to distribute the jar file in a different way.
@@ -40,7 +41,7 @@ Phoenix is primarily a client-side tool, but it does require some coprocessors t
 
 - Restart all RegionServers to apply the changes made above.
 
-The HDP documentation has more detail on installing and configuring Phoenix, including more detail on how to configure Phoenix in a secure cluster.
+The HDP documentation has more detail on installing and configuring Phoenix, including information on how to configure Phoenix in a secure cluster.
 
 Running Phoenix SQLLine
 -----------------------
@@ -82,15 +83,16 @@ sqlline version 1.1.2
 
 From here, you can enter SQL DDL and/or DML commands to manipulate HBase tables. SQLLine also provides various shell-specific commands - for a complete list, run the `!help` command from the shell prompt. For example, as shown above, the `!tables` command shows a list of all Phoenix tables in HBase. The tables above are system tables automatically created and managed by Phoenix.
 
-Demo
-------
+Basic Operations
+----------------
 
 Let's create a table, load some data, and execute some SQL queries against the data in Phoenix. For this demo, start up a SQLLine session connected to your HBase cluster.
 
 - Create a table called `salaries`
 
   ```
-  create table salaries (id integer not null primary key, gender char(1), age integer, salary integer, zip integer);
+  create table salaries (id integer not null primary key, gender char(1), 
+    age integer, salary integer, zip integer);
   ```
 
   Notice, just like with a traditional database, we define columns with datatypes, and a primary key for the table. The primary key column(s) map to the rowkey in HBase.
@@ -111,6 +113,7 @@ Let's create a table, load some data, and execute some SQL queries against the d
   upsert into salaries values (next value for salaries_sequence, 'F', 50, 125000, 98390);
   upsert into salaries values (next value for salaries_sequence, 'F', 29, 70000, 60616);
   upsert into salaries values (next value for salaries_sequence, 'M', 18, 10000, 60616);
+  upsert into salaries values (next value for salaries_sequence, 'F', 55, 150000, 30130);
   ```
 
   Notice the use of the `upsert` statement here. HBase does not distinguish between and insert and an update. We can use the same type of statement to update a record. For example, execute the following:
@@ -127,6 +130,56 @@ Let's create a table, load some data, and execute some SQL queries against the d
   select * from salaries;
   ```
 
-  You should see 5 total records.
+  You should see 6 total records.
+
+- Delete a record from the `salaries` table
+
+  ```
+  delete from salaries where id = 6;
+  select * from salaries;
+  ```
+
+  You should now see 5 total records.
+
+Advanced Operations
+-------------------
+
+- Let's create a global secondary index for the `salaries` table to improve query performance.
+
+  ```
+  create index salaries_index on salaries (gender) include (salary);
+  ```
+  
+  Global indexes are stored as a separate table in HBase, likely on a different RegionServer than the main table:
+  
+  ```
+  select * from salaries_index;
+  ```
+  
+ We can optionally choose to include additional column(s) in the index, which might allow us to satisfy some queries exclusively with the index (instead of having to also scan the main table). In this case, we added the `salary` column to the index.
+  
+- Execute a query against the `salaries` table which uses the secondary index
+
+  ```
+  select gender, count(*) from salaries group by gender;
+  ```
+  
+  We can see that the index is being used exclusively to satisfy this query by running an `explain`:
+  
+  ```
+  explain select gender, count(*) from salaries group by gender;
+  ```
+
+  ```
+  +------------+
+  |    PLAN    |
+  +------------+
+  | CLIENT PARALLEL 1-WAY FULL SCAN OVER SALARIES_INDEX |
+  |     SERVER FILTER BY FIRST KEY ONLY |
+  |     SERVER AGGREGATE INTO ORDERED DISTINCT ROWS BY [GENDER] |
+  | CLIENT MERGE SORT |
+  +------------+
+  4 rows selected (0.041 seconds)
+  ```
 
 
