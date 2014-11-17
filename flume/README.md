@@ -59,4 +59,5 @@ Running the Demo
 
   You should see 10000 rows in the table after the streaming ingest is complete.
 
+  **Note**: if you look in `/apps/hive/warehouse/salaries`, you'll see many delta subfolders. By default, Hive is not configured to automatically run *compaction* to combine these smaller transaction batches into larger data files. You can enable this by running the `enable-transactions.sh` script from the Ambari server node to modify the Hive configuration and restart Hive components. See https://github.com/mikebin/hdp-demos/tree/master/hive-transactions for more details.
 
