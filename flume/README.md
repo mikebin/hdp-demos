@@ -12,7 +12,7 @@ Running the Demo
 
 - Create the Hive table
  
-  Review the `salaries.sql` script, which creates a bucketing Hive table - `salaries` - in ORC format, currently required for streaming data ingest. Execute the script to create the table.
+  Review the `salaries.sql` script, which creates a bucketed Hive table in ORC format, currently required for streaming data ingest. Execute the script to create the table:
 
   ```
   hive -f salaries.sql
@@ -20,11 +20,15 @@ Running the Demo
 
 - Review the Flume configuration
 
-  Have a look at the included `flume.conf` file. It configures the following components
+  Have a look at the included `flume.conf` file. It configures the following components:
   - Spooling file source: reads files from the `.spool` folder, and steams their contents to the channel as lines of text
-  - Memory channel: stored events (lines of text from the spooled file(s)) in memory
+  - Memory channel: stores events (lines of text from the spooled file(s)) in memory
   - Hive sink: streams event data into the `salaries` table. Assumes that each line of text is comma-delimited with 4 fields: gender, age, salary, zip
 
+- Review `flume-env.sh`
+
+  `flume-env.sh` sets environment variables pointing to the home directories for Hive and HCatalog. This is required for Flume to add the necessary jar files to the `CLASSPATH` when using the Hive sink.
+  
 - Start the Flume agent
 
   ```
