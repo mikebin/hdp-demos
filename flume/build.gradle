@@ -1,0 +1,25 @@
+apply plugin: 'java'
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
+archivesBaseName = 'flume-custom'
+
+repositories {
+  mavenLocal()
+  jcenter()
+  maven {
+    url="http://repo.hortonworks.com/content/repositories/releases/"
+  }
+}
+
+dependencies {
+  compile "org.apache.hadoop:hadoop-client:${hadoopVersion}"
+  compile "org.apache.flume:flume-ng-core:${flumeVersion}"
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.1'
+}
+
+
