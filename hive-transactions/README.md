@@ -17,7 +17,7 @@ To enable ACID in Hive, ensure the following configuration settings in `hive-sit
 |hive.compactor.worker.threads|1|
 |hive.support.concurrency|true|
 |hive.enforce.bucketing|true|
-|hive.exec.dynamic.partition.mode|true|
+|hive.exec.dynamic.partition.mode|nonstrict|
 
 See https://cwiki.apache.org/confluence/display/Hive/Hive+Transactions for more details on other optional settings.
 
