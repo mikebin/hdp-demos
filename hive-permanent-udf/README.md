@@ -1,7 +1,7 @@
 Hive Permanent Functions Demo
 =============================
 
-This demo will show how to create a permanent function in Hive, a new feature avavailable starting in Hive 0.13. Permanent functions register UDF jar files (and their dependencies) in the Hive metastore DB, making it easier to share UDF implementations.
+This demo will show how to create a permanent function in Hive, a new feature available starting in Hive 0.13. Permanent functions register UDF jar files (and their dependencies) in the Hive metastore DB, making it easier to share UDF implementations.
 
 This demo creates a simple date-based function which converts a timestamp in one format to another, and also subtracts 3 hours from the time. It has a dependency on the Joda Time library, which is packaged in the UDF jar (resulting in a "fat jar" distribution).
 
