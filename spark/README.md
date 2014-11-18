@@ -39,4 +39,4 @@ Running the Samples
 | Scala Word Count | `./spark-local.sh spark.ScalaWordCount constitution.txt out` | `./spark-yarn.sh spark.ScalaWordCount hdfs:///<dir>/constitution.txt hdfs:///<dir>/out` | For YARN, copy `constitution.txt` to `<dir>` in HDFS first |
 | Scala White House Visitor Analysis | `spark-local.sh spark.ScalaWhiteHouseVisitorAnalysis whitehouse_visits.txt` | `spark-yarn.sh spark.ScalaWhiteHouseVisitorAnalysis hdfs:///<dir>/whitehouse_visits.txt` | Unzip `whitehouse_visits.zip`. For YARN, copy `whitehouse_visits.txt` to `<dir>` in HDFS first |
 | Spark SQL from a text file | `./spark-local.sh spark.SparkSqlFromFile salarydata.txt` | `./spark-yarn.sh spark.SparkSqlFromFile hdfs:///<dir>/salarydata.txt` | For YARN, copy `salarydata.txt` to `<dir>` in HDFS first |
-| Spark SQL from a Hive table | N/A | `./spark-yarn.sh spark.SparkSqlFromHive` | Run `hive -f salaries.sql` to create and load the `salaries` table in Hive first |
+| Spark SQL from a Hive table | N/A | `./spark-yarn.sh spark.SparkSqlFromHive` | Copy `/etc/hive/conf/hive-site.xml` to `$SPARK_HOME/conf`. Run `hive -f salaries.sql` to create and load the `salaries` table in Hive first |
