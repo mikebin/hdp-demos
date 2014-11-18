@@ -21,7 +21,7 @@ public class WordCount {
     JavaSparkContext sc = new JavaSparkContext(conf);
 
     JavaRDD<String> file = sc
-        .textFile(args[1] != null ? args[1] : "hdfs://namenode:8020/user/root/constitution.txt");
+        .textFile(args.length > 1 ? args[1] : "hdfs://namenode:8020/user/root/constitution.txt");
     JavaRDD<String> words = file.flatMap(new FlatMapFunction<String, String>() {
       public Iterable<String> call(String s) {
         return Arrays.asList(s.split(" "));
@@ -43,6 +43,6 @@ public class WordCount {
           }
         });
 
-    counts.saveAsTextFile(args[2] != null ? args[2] : "hdfs://namenode:8020/user/root/sparkwordcount");
+    counts.saveAsTextFile(args.length > 2 ? args[2] : "hdfs://namenode:8020/user/root/sparkwordcount");
   }
 }

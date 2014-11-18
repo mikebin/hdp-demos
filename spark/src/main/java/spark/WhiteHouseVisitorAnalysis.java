@@ -20,7 +20,7 @@ public class WhiteHouseVisitorAnalysis {
     JavaSparkContext sc = new JavaSparkContext(conf);
 
     JavaRDD<String> file = sc
-        .textFile(args[1] != null ? args[1] : "hdfs://namenode:8020/user/root/whitehouse_visits.txt");
+        .textFile(args.length > 1 ? args[1] : "hdfs://namenode:8020/user/root/whitehouse_visits.txt");
 
     // Filter in only records containing POTUS in the comments field
     JavaRDD<String> potus = file.filter(new Function<String, Boolean>() {
