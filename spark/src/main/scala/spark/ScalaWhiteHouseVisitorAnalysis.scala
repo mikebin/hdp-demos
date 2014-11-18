@@ -6,9 +6,10 @@ import org.apache.spark.SparkConf
 
 object ScalaWhiteHouseVisitorAnalysis {
   def main(args: Array[String]) {
-    val conf = new SparkConf().setAppName("Scala wh-visitor-analysis").setMaster("yarn-client")
+    val optionArgs = args.lift
+    val conf = new SparkConf().setAppName("Scala wh-visitor-analysis")
     val sc = new SparkContext(conf)
-    val file = sc.textFile("hdfs://namenode:8020/user/root/whitehouse_visits.txt")
+    val file = sc.textFile(optionArgs(1).getOrElse("hdfs:///user/root/whitehouse_visits.txt"))
 
     // Filter in records containing POTUS in the comments field
     val potus = file.filter { line =>
@@ -31,8 +32,8 @@ object ScalaWhiteHouseVisitorAnalysis {
     });
 
     // Print results
-    for (record <- result) {
-      println("%-35s%d".format(record._1, record._2))
+    for ((name, count) <- result) {
+      println("%-35s%d".format(name, count))
     }
 
   }

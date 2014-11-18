@@ -2,6 +2,7 @@ package spark;
 
 import java.util.Arrays;
 
+import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
@@ -15,9 +16,12 @@ public class WordCount {
 
   @SuppressWarnings("serial")
   public static void main(String... args) {
-    JavaSparkContext sc = new JavaSparkContext("yarn-client", "word-count");
+    SparkConf conf = new SparkConf();
+    conf.setAppName("word-count");
+    JavaSparkContext sc = new JavaSparkContext(conf);
+
     JavaRDD<String> file = sc
-        .textFile("hdfs://namenode:8020/user/root/constitution.txt");
+        .textFile(args[1] != null ? args[1] : "hdfs://namenode:8020/user/root/constitution.txt");
     JavaRDD<String> words = file.flatMap(new FlatMapFunction<String, String>() {
       public Iterable<String> call(String s) {
         return Arrays.asList(s.split(" "));
@@ -39,6 +43,6 @@ public class WordCount {
           }
         });
 
-    counts.saveAsTextFile("hdfs://namenode:8020/user/root/sparkwordcount");
+    counts.saveAsTextFile(args[2] != null ? args[2] : "hdfs://namenode:8020/user/root/sparkwordcount");
   }
 }
