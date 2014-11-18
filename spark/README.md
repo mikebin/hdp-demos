@@ -1,38 +1,42 @@
-spark-samples
-=============
+Spark Overview
+==============
 
-This project contains two simple examples of data processing with Apache Spark - a basic word counting application, and a simple application to find the top-N most frequent visits to the President from a White House visitor data set. The examples are written in both Java and Scala for comparison. Spark also has a Python API which is currently not demonstrated in this project.
+This project contains a few simple examples of data processing with Apache Spark:
 
-The samples are currently hard-coded to expect a YARN execution environment, and use HDFS as the input source/output sink. Simple modifications/parameterization in this code would make it possible to run these samples locally or in other execution environments.
+- basic word counting application
+- simple application to find the top-N most frequent visits to the President from a White House visitor data set
+- Spark SQL from a text file
+- Spark SQL from a Hive table
+
+The examples are written in both Java and Scala for comparison (except for the Spark SQL examples, which are Scala-only). Spark also has a Python API which is currently not demonstrated in this project.
+
+A couple of simple scripts are provided to help launch the applications either in local execution mode (`spark-local.sh`) or distributed on YARN (`spark-yarn.sh`). These examples require Spark 1.1.0+, and have been tested with the Spark 1.1.0 Technical Preview on HDP 2.1.
 
 Running the Samples
 -------------------
 
-* Copy `constitution.txt` and `whitehouse_visits.txt` (contained in `whitehouse_visits.zip`) to your home directory in HDFS
+* Run `./gradlew build` to compile and package the application jar. The build script creates a "fat jar" called `spark-app.jar`, shading any necessary non-provided depedendency libraries into a single application jar which can be submitted and executed on the cluster
 
-* Modify the code as needed to reference your file locations in HDFS
+* For running samples in local execution mode, install Spark locally. On OSX, a simple way to install Spark with with Brew: `brew install spark`
 
-* Run `./gradlew build` to compile and package the application jar. The build script creates a "fat jar", shading all depedendency libraries into a single application jar which can be submitted and executed on the cluster
+* For running the samples on YARN, set the following environment variables if needed on the node where you plan to run the Spark YARN application:
 
-* Use the `copyfiles.sh` script (or a similar variant) to copy the provided scripts and jar file to a cluster node containing the Spark framework
+  ```
+  export YARN_CONF_DIR=/etc/hadoop/conf
+  export SPARK_JAR=/usr/lib/spark/lib/spark-assembly-1.1.0.2.1.5.0-702-hadoop2.4.0.2.1.5.0-695.jar
+  export SPARK_HOME=/usr/lib/spark
+  export PATH=$PATH:$SPARK_HOME/bin
+  ```
+  You will also need `spark-app.jar`, `spark-yarn.sh`, and any necessary input file(s) available on the node where you plan to launch the Spark on YARN application.
+  
+  
+* Run one of the following examples:
 
-* Set the following environment variables if needed on the node where you plan to run the Spark YARN application (or pass these as parameters to the spark-submit script)
-
-```
-export YARN_CONF_DIR=/etc/hadoop/conf
-export SPARK_JAR=/usr/lib/spark/lib/spark-assembly-1.0.1.2.1.3.0-563-hadoop2.4.0.2.1.3.0-563.jar
-export SPARK_WORKER_MEMORY=512m
-export SPARK_MASTER_MEMORY=512m
-export MASTER=yarn-client
-export SPARK_HOME=/usr/lib/spark
-export PATH=$PATH:$SPARK_HOME/bin
-```
-
-* Run one of the following scripts (perhaps with minor changes, depending on your cluster configuration) to submit the process to the Spark cluster from the node used in step 4 above
-
-| Sample | Command |
-------- | -------- |
-| Java Word Count |`spark-word-count.sh` |
-| Java White House Visitor Analysis |`spark-potus.sh` | 
-| Scala Word Count |`spark-scala-word-count.sh` |
-| Scala White House Visitor Analysis |`spark-scala-potus.sh` | 
+| Sample | Local Command | YARN command | Prerequisites
+------- | -------- | ----------- | -------------|
+| Java Word Count | `./spark-local.sh spark.WordCount constitution.txt out` | `./spark-yarn.sh spark.WordCount hdfs:///<dir>/constitution.txt hdfs:///<dir>/out` | For YARN, copy `constitution.txt` to `<dir>` in HDFS first |
+| Java White House Visitor Analysis | `spark-local.sh spark.WhiteHouseVisitorAnalysis whitehouse_visits.txt` | `spark-yarn.sh spark.WhiteHouseVisitorAnalysis hdfs:///<dir>/whitehouse_visits.txt` | Unzip `whitehouse_visits.zip`. For YARN, copy `whitehouse_visits.txt` to `<dir>` in HDFS first |
+| Scala Word Count | `./spark-local.sh spark.ScalaWordCount constitution.txt out` | `./spark-yarn.sh spark.ScalaWordCount hdfs:///<dir>/constitution.txt hdfs:///<dir>/out` | For YARN, copy `constitution.txt` to `<dir>` in HDFS first |
+| Scala White House Visitor Analysis | `spark-local.sh spark.ScalaWhiteHouseVisitorAnalysis whitehouse_visits.txt` | `spark-yarn.sh spark.ScalaWhiteHouseVisitorAnalysis hdfs:///<dir>/whitehouse_visits.txt` | Unzip `whitehouse_visits.zip`. For YARN, copy `whitehouse_visits.txt` to `<dir>` in HDFS first |
+| Spark SQL from a text file | `spark-local.sh spark.SparkSqlFromFile salarydata.txt` | `spark-yarn.sh spark.SparkSqlFromFile hdfs:///<dir>/salarydata.txt` | For YARN, copy `salarydata.txt` to `<dir>` in HDFS first |
+| Spark SQL from a Hive table | N/A | `spark-yarn.sh spark.SparkSqlFromHive` | Run `hive -f salaries.sql` to create and load the `salaries` table in Hive first |
