@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="vendor/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="css/main.css">
+</head>
+
+<body>
+<div class="container" ng-app="configApp" ng-controller="configController">
+  <h1>Zookeeper Configuration</h1>
+  <h4>This application demonstrates the use of Zookeeper for dynamic application configuration.</h4>
+  <h4 class="text-info">Current Environment = <strong>{{env}}</strong></h4>
+
+  <table id="results" class="table table-striped" ng-show="config" ng-cloak>
+    <thead>
+    <tr>
+      <th>Property Name</th>
+      <th>Property Value</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>DB URL</td><td>{{config.dbUrl}}</td>
+    </tr>
+    <tr>
+      <td>DB User</td><td>{{config.dbUser}}</td>
+    </tr>
+    <tr>
+      <td>DB Password</td><td>{{config.dbPassword}}</td>
+    </tr>
+    </tbody>
+  </table>
+
+  <div id="error" ng-show="message" ng-cloak><p class="text-warning">{{message}}</p></div>
+
+  <script src="vendor/angularjs/angular.js"></script>
+  <script src="vendor/jquery/jquery.js"></script>
+  <script src="js/app.js"></script>
+</div>
+</body>
+</html>

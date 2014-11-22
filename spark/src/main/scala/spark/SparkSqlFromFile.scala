@@ -18,7 +18,7 @@ object SparkSqlFromFile {
       .map(s => SalaryData(s(0).trim, s(1).trim.toInt, s(2).trim.toDouble, s(3).trim.toInt))
 
     salaries.registerTempTable("salaries")
-    
+
     val genderBreakdown = sqlContext.sql("select gender, count(*) from salaries group by gender")
     genderBreakdown.collect().foreach(println)
   }

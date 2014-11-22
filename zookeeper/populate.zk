@@ -1,0 +1,15 @@
+create /appconfig null
+
+create /appconfig/dev null
+create /appconfig/dev/myapp null
+create /appconfig/dev/myapp/db null
+create /appconfig/dev/myapp/db/url jdbc:mysql://10.10.10.1:3306/
+create /appconfig/dev/myapp/db/user devuser
+create /appconfig/dev/myapp/db/password devpassword
+
+create /appconfig/test null
+create /appconfig/test/myapp null
+create /appconfig/test/myapp/db null
+create /appconfig/test/myapp/db/url jdbc:mysql://10.10.10.2:3306/
+create /appconfig/test/myapp/db/user testuser
+create /appconfig/test/myapp/db/password testpassword

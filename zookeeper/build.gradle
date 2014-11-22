@@ -1,0 +1,46 @@
+buildscript {
+  repositories {
+    jcenter()
+    maven { url "http://repo.spring.io/snapshot" }
+    maven { url "http://repo.spring.io/milestone" }
+  }
+  dependencies {
+    classpath("org.springframework.boot:spring-boot-gradle-plugin:1.1.9.RELEASE")
+  }
+}
+
+apply plugin: 'java'
+apply plugin: 'spring-boot'
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
+jar {
+  archiveName = "zkconfig.jar"
+  version = '0.0.1-SNAPSHOT'
+}
+
+repositories {
+  jcenter()
+  maven { url "http://repo.spring.io/snapshot" }
+  maven { url "http://repo.spring.io/milestone" }
+}
+
+configurations {
+  providedRuntime
+}
+
+dependencies {
+  compile "org.springframework.boot:spring-boot-starter-data-rest"
+  compile "org.springframework.boot:spring-boot-starter-logging"
+  compile "com.google.guava:guava:18.0"
+  compile "org.apache.curator:curator-framework:2.7.0"
+  compile "javax.inject:javax.inject:1"
+  compile "org.mockito:mockito-core:1.10.0"
+  providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
+  testCompile "org.springframework.boot:spring-boot-starter-test"
+}
+
+task wrapper(type: Wrapper) {
+  gradleVersion = '2.1'
+}

@@ -1,0 +1,16 @@
+delete /appconfig/dev/myapp/db/url
+delete /appconfig/dev/myapp/db/user
+delete /appconfig/dev/myapp/db/password
+delete /appconfig/dev/myapp/db
+delete /appconfig/dev/myapp
+delete /appconfig/dev
+
+delete /appconfig/test/myapp/db/url
+delete /appconfig/test/myapp/db/user
+delete /appconfig/test/myapp/db/password
+delete /appconfig/test/myapp/db
+delete /appconfig/test/myapp
+delete /appconfig/test
+
+delete /appconfig
+
