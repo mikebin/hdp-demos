@@ -21,7 +21,7 @@ Running the Demo
 - Review the Flume configuration
 
   Have a look at the included `flume.conf` file. It configures the following components:
-  - Spooling file source: reads files from the `.spool` folder, and steams their contents to the channel as lines of text
+  - Spooling file source: reads files from the `./spool` folder, and steams their contents to the channel as lines of text
   - Memory channel: stores events (lines of text from the spooled file(s)) in memory
   - Hive sink: streams event data into the `salaries` table. Assumes that each line of text is comma-delimited with 4 fields: gender, age, salary, zip
 
