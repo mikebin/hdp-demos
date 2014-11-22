@@ -3,7 +3,7 @@ Zookeeper for Application Configuration
 
 This demo walks through a simple application which uses Zookeeper for dynamic configuration. One of the challenges in any application is how best to manage various configurable properties, externalizing them from the application code, and dealing with different environments (dev, test, prod, etc.). Zookeeper can be a useful tool for this purpose, since it provides a highly available, lightweight, centralized mechanism for storing and sharing small amounts of data across a distributed system.
 
-The demo application is a simple Spring Boot/AngularJS RESTful web app which retrieves a few configuration properties from Zookeeper and displays them on a web page. We will preload some configuration settings in Zookeeper for two different "environments" - `dev` and `test`. The application uses the Apache Curator framrwork as a high level abstraction over the native Zookeeper APIs: http://curator.apache.org/.
+The demo application is a simple Spring Boot/AngularJS RESTful web app which retrieves a few configuration properties from Zookeeper and displays them on a web page. We will preload some configuration settings in Zookeeper for two different "environments" - `dev` and `test`. The application uses the Apache Curator framework as a high level abstraction over the native Zookeeper APIs: http://curator.apache.org/.
 
 A running Zookeeper Quorum is needed for this demo. The instructions below were tested with HDP 2.2.
 
@@ -22,7 +22,7 @@ Running the demo
 
 - Preload some configuration settings into Zookeeper
 
-   Have a look at `populate.zk`. It creates a hierarchy of application configuration settings in Zookeeper, of the format: /appconfig/<environment>/<appname>/db/...
+   Have a look at `populate.zk`. It creates a hierarchy of application configuration settings in Zookeeper, of the format: `/appconfig/<environment>/<appname>/db/...`
 
   Let's load these settings into Zookeeper using the ZK CLI.
 
@@ -30,7 +30,7 @@ Running the demo
   /usr/hdp/current/zookeeper-client/bin/zkCli.sh -server "zknode:2181" < populate.zk
   ```
 
-  The `-server` option is not required if you're running the CLI on a ZK quorum host.
+  The `-server` option is not required if you're running the CLI on a ZK quorum node.
 
   If you've already loaded the sample configuration and want to reset to the initial state, you can first run the same command above with the `delete.zk` script.
 
@@ -58,7 +58,7 @@ Running the demo
 
 - Make changes to your configuration
   
-  Let's use the ZK CLI to make some changes to our configuration, and observe how the application receives these changes within seconds.
+  Let's use the ZK CLI to make some changes to our configuration, and observe how the application receives these changes.
 
   ```
   /usr/hdp/current/zookeeper-client/bin/zkCli.sh -server "zknode:2181" 
@@ -70,7 +70,7 @@ Running the demo
   [zk: localhost:2181(CONNECTED) 21] set /appconfig/test/myapp/db/user changed_user
   ```
 
-  Now go back to your web application home page, and within 5 seconds, you should see the updated configuration setting appear.
+  Now go back to your web application home page, and you should see the updated configuration setting appear (the page automatically refreshes its data every 5 seconds).
 
 - Review the code
 
