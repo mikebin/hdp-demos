@@ -27,7 +27,7 @@ Running the Samples
   export PATH=$PATH:$SPARK_HOME/bin
   ```
 
-  Also, create or append to `$SPARK_HOME/conf/spark-defaults.conf` the followingfor HDP 2.2:
+  Also, create or append to `$SPARK_HOME/conf/spark-defaults.conf` the following for HDP 2.2:
 
   ```
   spark.driver.extraJavaOptions    -Dhdp.version=2.2.0.0-2041
@@ -45,4 +45,4 @@ Running the Samples
 | Scala Word Count | `./spark-local.sh spark.ScalaWordCount constitution.txt out` | `./spark-yarn.sh spark.ScalaWordCount hdfs:///<dir>/constitution.txt hdfs:///<dir>/out` | For YARN, copy `constitution.txt` to `<dir>` in HDFS |
 | Scala White House Visitor Analysis | `spark-local.sh spark.ScalaWhiteHouseVisitorAnalysis whitehouse_visits.txt` | `spark-yarn.sh spark.ScalaWhiteHouseVisitorAnalysis hdfs:///<dir>/whitehouse_visits.txt` | Unzip `whitehouse_visits.zip`. For YARN, copy `whitehouse_visits.txt` to `<dir>` in HDFS |
 | Spark SQL from a text file | `./spark-local.sh spark.SparkSqlFromFile salarydata.txt` | `./spark-yarn.sh spark.SparkSqlFromFile hdfs:///<dir>/salarydata.txt` | For YARN, copy `salarydata.txt` to `<dir>` in HDFS |
-| Spark SQL from a Hive table | N/A | `./spark-yarn.sh spark.SparkSqlFromHive` | Copy `/etc/hive/conf/hive-site.xml` to `$SPARK_HOME/conf`. Run `hive -f salaries.sql` to create and load the `salaries` table in Hive. Make sure your $SPARK_HOME/conf directory contains hive-site.xml.|
+| Spark SQL from a Hive table | N/A | `./spark-yarn.sh spark.SparkSqlFromHive` | Copy `/etc/hive/conf/hive-site.xml` to `$SPARK_HOME/conf`. Run `hive -f salaries.sql` to create and load the `salaries` table in Hive. Make sure your $SPARK_HOME/conf directory contains `hive-site.xml`.|
