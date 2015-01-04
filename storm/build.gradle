@@ -1,5 +1,5 @@
 project.ext.archiveName = 'storm-app.jar'
-project.ext.stormversion = '0.9.1.2.1.3.0-563'
+project.ext.stormversion = '0.9.3'
 
 buildscript {
   repositories { 
@@ -9,7 +9,7 @@ buildscript {
     }
   }
   dependencies {
-    classpath 'com.github.jengelman.gradle.plugins:shadow:1.0.2'
+    classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.0'
   }
 }
 
@@ -94,5 +94,5 @@ jar {
 jar.dependsOn(shadowJar)
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.1'
+    gradleVersion = '2.2.1'
 }

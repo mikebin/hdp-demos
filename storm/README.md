@@ -3,6 +3,8 @@ storm-samples
 
 This project contains some simple examples for Apache Storm. In order to run the samples, you'll need to have access to at minimum a local Storm installation (with the storm CLI), and ideally a full Storm cluster. Examples can all be executed either in local mode, or in cluster mode. If executing an application on the cluster, you will need a local Storm configuration which points to the host and port of the Nimbus server.
 
+This project is currently configured to compile and execute against Storm 0.9.3, which is the latest version included in HDP 2.2.
+
 Running the Samples
 -------------------
 
