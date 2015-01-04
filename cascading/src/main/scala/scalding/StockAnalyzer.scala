@@ -2,9 +2,9 @@ package scalding
 
 import java.text.SimpleDateFormat
 import java.util.TimeZone
-import com.twitter.scalding._
+
 import cascading.pipe.joiner.LeftJoin
-import cascading.property.AppProps
+import com.twitter.scalding._
 
 class StockAnalyzer(args: Args) extends Job(args) {
   implicit val dp: DateParser = DateParser.from(new SimpleDateFormat("yyyy-MM-dd"))
@@ -33,7 +33,7 @@ class StockAnalyzer(args: Args) extends Job(args) {
     val config = super.config
     if (args.boolean("tez")) {
       config ++ Map("cascading.flow.runtime.gather.partitions.num" -> "4",
-        "tez.lib.uris" -> "hdfs:///apps/tez-0.5.0/tez-0.5.0.tar.gz",
+        "tez.lib.uris" -> "hdfs:///hdp/apps/2.2.0.0-2041/tez/tez.tar.gz",
         "cascading.app.appjar.class" -> this.getClass())
     } else {
       config ++ Map("cascading.app.appjar.class" -> this.getClass())
@@ -43,14 +43,6 @@ class StockAnalyzer(args: Args) extends Job(args) {
   override def run: Boolean = {
     val flow = buildFlow
     flow.complete
-
-    if (!args.boolean("tez")) {
-      val statsData = flow.getFlowStats
-      handleStats(statsData)
-      statsData.isSuccessful
-    } 
-    else {
-      true
-    }
+    true
   }
 }

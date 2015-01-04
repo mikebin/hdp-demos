@@ -138,7 +138,7 @@ public class StockAnalyzer {
       sink = new Hfs(sinkScheme, outputPath, SinkMode.REPLACE);
       if (tez) {
         properties.put("tez.lib.uris",
-            "hdfs:///apps/tez-0.5.0/tez-0.5.0.tar.gz");
+            "hdfs:///hdp/apps/2.2.0.0-2041/tez/tez.tar.gz");
         properties = FlowRuntimeProps.flowRuntimeProps().setGatherPartitions(4)
             .buildProperties(properties);
         flowConnector = new Hadoop2TezFlowConnector(properties);

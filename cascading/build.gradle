@@ -1,7 +1,9 @@
 project.ext.archiveName = 'cascade.jar'
-project.ext.cascadingVersion = '3.0.0-wip-51'
-project.ext.scaldingVersion = '0.11.2'
+project.ext.cascadingVersion = '3.0.0-wip-61'
+project.ext.scaldingVersion = '0.12.0'
 project.ext.luceneVersion = '4.10.1'
+project.ext.cliVersion = '1.2'
+project.ext.hadoopVersion = '2.6.0'
 
 apply plugin: 'scala'
 
@@ -10,20 +12,21 @@ targetCompatibility = 1.7
 
 archivesBaseName = 'cascade'
 
-configurations {
-  cascading
-  compile { extendsFrom cascading }
-}
-
 repositories {
   mavenLocal()
   jcenter()
   maven { url = 'http://conjars.org/repo/' }
 }
 
+configurations {
+  cascading
+  compile { extendsFrom cascading }
+}
+
 dependencies {
-  compile 'org.apache.hadoop:hadoop-client:2.4.1'
-  
+  compile "org.apache.hadoop:hadoop-client:$project.ext.hadoopVersion"
+
+  cascading "commons-cli:commons-cli:$project.ext.cliVersion"
   cascading "com.twitter:scalding-core_2.10:$project.ext.scaldingVersion"
   cascading "cascading:cascading-core:$project.ext.cascadingVersion"
   cascading "cascading:cascading-local:$project.ext.cascadingVersion"
@@ -32,6 +35,7 @@ dependencies {
   cascading "cascading:cascading-hadoop2-mr1:$project.ext.cascadingVersion"
   cascading "cascading:cascading-hadoop2-tez:$project.ext.cascadingVersion"
   cascading "org.apache.lucene:lucene-analyzers-common:$project.ext.luceneVersion"
+
   testCompile "cascading:cascading-platform:$project.ext.cascadingVersion"
 }
 
@@ -44,7 +48,7 @@ jar {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.1'
+    gradleVersion = '2.2.1'
 }
 
 
