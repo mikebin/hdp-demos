@@ -10,7 +10,7 @@ This project contains a few simple examples of data processing with Apache Spark
 
 The examples are written in both Java and Scala for comparison (except for the Spark SQL examples, which are Scala-only). Spark also has a Python API which is currently not demonstrated in this project.
 
-A couple of simple scripts are provided to help launch the applications either in local execution mode (`spark-local.sh`) or distributed on YARN (`spark-yarn.sh`). These examples require Spark 1.1.0+, and have been tested with the Spark 1.1.0 Technical Preview on HDP 2.1.
+A couple of simple scripts are provided to help launch the applications either in local execution mode (`spark-local.sh`) or distributed on YARN (`spark-yarn.sh`). These examples are designed to run on Spark 1.2.0+, and have been tested with the Spark 1.2.0 Technical Preview on HDP 2.2. It is possible to run most of these samples on older versions of Spark and HDP, but some of the configuration shown below may need to change.
 
 Running the Samples
 -------------------
@@ -23,10 +23,16 @@ Running the Samples
 
   ```
   export YARN_CONF_DIR=/etc/hadoop/conf
-  export SPARK_JAR=/usr/lib/spark/lib/spark-assembly-1.1.0.2.1.5.0-702-hadoop2.4.0.2.1.5.0-695.jar
   export SPARK_HOME=/usr/lib/spark
   export PATH=$PATH:$SPARK_HOME/bin
   ```
+
+  Also, create or append to `$SPARK_HOME/conf/spark-defaults.conf` the followingfor HDP 2.2:
+
+  ```
+  spark.driver.extraJavaOptions    -Dhdp.version=2.2.0.0-2041
+  spark.yarn.am.extraJavaOptions   -Dhdp.version=2.2.0.0-2041
+  ```  
   You will also need `spark-app.jar`, `spark-yarn.sh`, and any necessary input file(s) available on the node where you plan to launch the Spark on YARN application.
   
   
@@ -39,4 +45,4 @@ Running the Samples
 | Scala Word Count | `./spark-local.sh spark.ScalaWordCount constitution.txt out` | `./spark-yarn.sh spark.ScalaWordCount hdfs:///<dir>/constitution.txt hdfs:///<dir>/out` | For YARN, copy `constitution.txt` to `<dir>` in HDFS |
 | Scala White House Visitor Analysis | `spark-local.sh spark.ScalaWhiteHouseVisitorAnalysis whitehouse_visits.txt` | `spark-yarn.sh spark.ScalaWhiteHouseVisitorAnalysis hdfs:///<dir>/whitehouse_visits.txt` | Unzip `whitehouse_visits.zip`. For YARN, copy `whitehouse_visits.txt` to `<dir>` in HDFS |
 | Spark SQL from a text file | `./spark-local.sh spark.SparkSqlFromFile salarydata.txt` | `./spark-yarn.sh spark.SparkSqlFromFile hdfs:///<dir>/salarydata.txt` | For YARN, copy `salarydata.txt` to `<dir>` in HDFS |
-| Spark SQL from a Hive table | N/A | `./spark-yarn.sh spark.SparkSqlFromHive` | Copy `/etc/hive/conf/hive-site.xml` to `$SPARK_HOME/conf`. Run `hive -f salaries.sql` to create and load the `salaries` table in Hive |
+| Spark SQL from a Hive table | N/A | `./spark-yarn.sh spark.SparkSqlFromHive` | Copy `/etc/hive/conf/hive-site.xml` to `$SPARK_HOME/conf`. Run `hive -f salaries.sql` to create and load the `salaries` table in Hive. Make sure your $SPARK_HOME/conf directory contains hive-site.xml.|

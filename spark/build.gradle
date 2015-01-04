@@ -3,7 +3,7 @@ project.ext.archiveName = 'spark-app.jar'
 buildscript {
   repositories { jcenter() }
   dependencies {
-    classpath 'com.github.jengelman.gradle.plugins:shadow:1.1.2'
+    classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.0'
   }
 }
 
@@ -27,7 +27,7 @@ configurations {
 }
 
 repositories {
-  jcenter()
+  mavenCentral()
 }
 
 dependencies {
@@ -71,5 +71,5 @@ tasks.withType(ScalaCompile) {
 }
 
 task wrapper(type: Wrapper) {
-  gradleVersion = '2.1'
+  gradleVersion = '2.2.1'
 }
