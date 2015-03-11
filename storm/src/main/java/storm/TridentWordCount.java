@@ -1,11 +1,18 @@
 package storm;
 
-import org.apache.commons.cli.BasicParser;
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.Option;
-import org.apache.commons.cli.Options;
-
+import backtype.storm.Config;
+import backtype.storm.LocalCluster;
+import backtype.storm.LocalDRPC;
+import backtype.storm.StormSubmitter;
+import backtype.storm.generated.StormTopology;
+import backtype.storm.tuple.Fields;
+import backtype.storm.tuple.Values;
+import backtype.storm.utils.DRPCClient;
+import backtype.storm.utils.Utils;
+import org.apache.commons.cli.*;
+import org.apache.commons.lang.StringUtils;
+import org.apache.storm.netty.util.internal.StringUtil;
+import org.yaml.snakeyaml.Yaml;
 import storm.trident.TridentState;
 import storm.trident.TridentTopology;
 import storm.trident.operation.BaseFunction;
@@ -17,14 +24,9 @@ import storm.trident.operation.builtin.Sum;
 import storm.trident.testing.FixedBatchSpout;
 import storm.trident.testing.MemoryMapState;
 import storm.trident.tuple.TridentTuple;
-import backtype.storm.Config;
-import backtype.storm.LocalCluster;
-import backtype.storm.LocalDRPC;
-import backtype.storm.StormSubmitter;
-import backtype.storm.generated.StormTopology;
-import backtype.storm.tuple.Fields;
-import backtype.storm.tuple.Values;
-import backtype.storm.utils.DRPCClient;
+
+import java.net.InetAddress;
+import java.util.Map;
 
 public class TridentWordCount {
   public static class Split extends BaseFunction {
@@ -41,29 +43,29 @@ public class TridentWordCount {
 
   public static StormTopology buildTopology(LocalDRPC drpc) {
     @SuppressWarnings("unchecked")
-    FixedBatchSpout spout = new FixedBatchSpout(new Fields("sentence"), 3, 
+    FixedBatchSpout spout = new FixedBatchSpout(new Fields("sentence"), 3,
         new Values("the cow jumped over the moon"),
-        new Values("the man went to the store and bought some candy"), 
-        new Values("four score and seven years ago"), 
-        new Values("how many apples can you eat"), 
+        new Values("the man went to the store and bought some candy"),
+        new Values("four score and seven years ago"),
+        new Values("how many apples can you eat"),
         new Values("to be or not to be the person"));
     spout.setCycle(true);
 
     TridentTopology topology = new TridentTopology();
     TridentState wordCounts = topology
-      .newStream("spout1", spout).parallelismHint(16)
-      .each(new Fields("sentence"), new Split(), new Fields("word"))
-      .groupBy(new Fields("word"))
-      .persistentAggregate(new MemoryMapState.Factory(), new Count(), new Fields("count"))
-      .parallelismHint(16);
+        .newStream("spout1", spout).parallelismHint(16)
+        .each(new Fields("sentence"), new Split(), new Fields("word"))
+        .groupBy(new Fields("word"))
+        .persistentAggregate(new MemoryMapState.Factory(), new Count(), new Fields("count"))
+        .parallelismHint(16);
 
     topology.newDRPCStream("words", drpc)
-      .each(new Fields("args"), new Split(), new Fields("word"))
-      .groupBy(new Fields("word"))
-      .stateQuery(wordCounts, new Fields("word"), new MapGet(), new Fields("count"))
-      .each(new Fields("count"), new FilterNull())
-      .aggregate(new Fields("count"), new Sum(), new Fields("sum"));
-    
+        .each(new Fields("args"), new Split(), new Fields("word"))
+        .groupBy(new Fields("word"))
+        .stateQuery(wordCounts, new Fields("word"), new MapGet(), new Fields("count"))
+        .each(new Fields("count"), new FilterNull())
+        .aggregate(new Fields("count"), new Sum(), new Fields("sum"));
+
     return topology.build();
   }
 
@@ -90,7 +92,13 @@ public class TridentWordCount {
     else {
       conf.setNumWorkers(3);
       StormSubmitter.submitTopology("trident-word-count", conf, buildTopology(null));
-      DRPCClient client = new DRPCClient("namenode", 3772);
+      Map<String, Object> dconf = Utils.readStormConfig();
+      //Note: the code below is designed for HDP 2.2 and Storm 0.9.3+. The method for constructing a DRPCClient
+      //differs in older versions of Storm
+      String drpcHost = dconf.get(Config.DRPC_SERVERS).toString()
+          .replace("[", StringUtils.EMPTY).replace("]", StringUtils.EMPTY)
+          .split(",")[0].trim();
+      DRPCClient client = new DRPCClient(dconf, drpcHost, Integer.valueOf(dconf.get(Config.DRPC_PORT).toString()));
       for (int i = 0; i < 100; i++) {
         System.out.println("DRPC RESULT: " + client.execute("words", "cat the dog jumped"));
         Thread.sleep(1000);

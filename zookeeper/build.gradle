@@ -31,6 +31,7 @@ configurations {
 }
 
 dependencies {
+  compile "org.apache.hadoop:hadoop-client:2.6.0"
   compile "org.springframework.boot:spring-boot-starter-data-rest"
   compile "org.springframework.boot:spring-boot-starter-logging"
   compile "com.google.guava:guava:18.0"
