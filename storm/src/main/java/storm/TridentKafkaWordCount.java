@@ -94,9 +94,9 @@ public class TridentKafkaWordCount {
     else {
       conf.setNumWorkers(3);
       StormSubmitter.submitTopology("trident-kafka-word-count", conf, buildTopology(null));
-      Map<String, Object> dconf = Utils.readStormConfig();
       //Note: the code below is designed for HDP 2.2 and Storm 0.9.3+. The method for constructing a DRPCClient
       //differs in older versions of Storm
+      Map<String, Object> dconf = Utils.readStormConfig();
       String drpcHost = dconf.get(Config.DRPC_SERVERS).toString()
           .replace("[", StringUtils.EMPTY).replace("]", StringUtils.EMPTY)
           .split(",")[0].trim();
