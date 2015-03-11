@@ -17,7 +17,7 @@ Running the Samples
 
 * Run `./gradlew build` to compile and package the application jar. The build script creates a "fat jar" called `spark-app.jar`, shading any necessary non-provided depedendency libraries into a single application jar which can be submitted and executed on the cluster
 
-* For running samples in local execution mode, install Spark locally. On OSX, a simple way to install Spark with with Brew: `brew install spark`
+* For running samples in local execution mode, install Spark locally. On OSX, a simple way to install Spark is with Homebrew: `brew install spark`
 
 * For running the samples on YARN, set the following environment variables if needed on the node where you plan to run the Spark YARN application:
 
