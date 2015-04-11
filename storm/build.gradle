@@ -1,4 +1,6 @@
 project.ext.archiveName = 'storm-app.jar'
+project.ext.hwstormversion = '0.9.3.2.2.0.0-2041'
+//Using two different Storm repos due to a broken transitive dependency in the HW repo
 project.ext.stormversion = '0.9.3'
 
 buildscript {
@@ -54,10 +56,10 @@ repositories {
 }
 
 dependencies {
-    compile "org.apache.storm:storm-core:${project.ext.stormversion}"
+    compile "org.apache.storm:storm-core:${project.ext.hwstormversion}"
     compile "org.apache.storm:storm-hdfs:${project.ext.stormversion}"
-    compile "org.apache.storm:storm-hbase:${project.ext.stormversion}"
-    compile "org.apache.storm:storm-kafka:${project.ext.stormversion}"
+    compile "org.apache.storm:storm-hbase:${project.ext.hwstormversion}"
+    compile "org.apache.storm:storm-kafka:${project.ext.hwstormversion}"
     compile "org.apache.kafka:kafka_2.10:0.8.1.1"
 
     testCompile 'junit:junit:4.11'

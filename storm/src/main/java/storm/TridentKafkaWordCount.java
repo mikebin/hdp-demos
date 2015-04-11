@@ -1,11 +1,13 @@
 package storm;
 
+import backtype.storm.utils.Utils;
 import org.apache.commons.cli.BasicParser;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 
+import org.apache.commons.lang.StringUtils;
 import storm.kafka.StringScheme;
 import storm.kafka.ZkHosts;
 import storm.kafka.trident.TransactionalTridentKafkaSpout;
@@ -29,6 +31,8 @@ import backtype.storm.spout.SchemeAsMultiScheme;
 import backtype.storm.tuple.Fields;
 import backtype.storm.tuple.Values;
 import backtype.storm.utils.DRPCClient;
+
+import java.util.Map;
 
 public class TridentKafkaWordCount {
   public static class Split extends BaseFunction {
@@ -90,7 +94,13 @@ public class TridentKafkaWordCount {
     else {
       conf.setNumWorkers(3);
       StormSubmitter.submitTopology("trident-kafka-word-count", conf, buildTopology(null));
-      DRPCClient client = new DRPCClient("namenode", 3772);
+      //Note: the code below is designed for HDP 2.2 and Storm 0.9.3+. The method for constructing a DRPCClient
+      //differs in older versions of Storm
+      Map<String, Object> dconf = Utils.readStormConfig();
+      String drpcHost = dconf.get(Config.DRPC_SERVERS).toString()
+          .replace("[", StringUtils.EMPTY).replace("]", StringUtils.EMPTY)
+          .split(",")[0].trim();
+      DRPCClient client = new DRPCClient(dconf, drpcHost, Integer.valueOf(dconf.get(Config.DRPC_PORT).toString()));
       for (int i = 0; i < 100; i++) {
         System.out.println("DRPC RESULT: " + client.execute("words", "good happy"));
         Thread.sleep(1000);
