@@ -31,7 +31,7 @@ hadoop fs -cat credentials/credentials.jceks
 You can view a list of credential aliases in the credential store by running the `hadoop credential list` command:
 
 ```
-hadoop credential list -provider jceks://hdfs/user/root/credentials/credential.jceks
+hadoop credential list -provider jceks://hdfs/user/root/credentials/credentials.jceks
 ```
 
 Using the Credential Store in a Sqoop job
