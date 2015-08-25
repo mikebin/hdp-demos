@@ -13,7 +13,7 @@ object KafkaLogAnalysis {
     val optionArgs = args.lift
     val conf = new SparkConf().setAppName("Log Analysis with Spark Streaming and Kafka")
     val sc = new SparkContext(conf)
-    val ssc = new StreamingContext(sc, Seconds(2))
+    val ssc = new StreamingContext(sc, Seconds(10))
     val regex = """(\d\d\d\d-\d\d-\d\d)\s+(\d\d:\d\d:\d\d).*ip=(\S+).*cmd=(\S+).*""".r
 
     val topicsSet = Set[String](optionArgs(1).getOrElse("hdfs-audit"))
