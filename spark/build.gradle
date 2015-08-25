@@ -34,7 +34,7 @@ dependencies {
   provided "org.apache.spark:spark-core_2.10:${sparkVersion}"
   provided "org.apache.spark:spark-sql_2.10:${sparkVersion}"
   provided "org.apache.spark:spark-streaming_2.10:${sparkVersion}"
-  provided "org.apache.spark:spark-streaming-kafka_2.10:${sparkVersion}"
+  compile "org.apache.spark:spark-streaming-kafka_2.10:${sparkVersion}"
   provided "org.apache.hadoop:hadoop-client:${hadoopVersion}"
   provided "org.apache.spark:spark-hive_2.10:${sparkVersion}"
   testCompile 'junit:junit:4.11'
