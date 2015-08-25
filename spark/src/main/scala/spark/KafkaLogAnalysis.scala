@@ -35,14 +35,12 @@ object KafkaLogAnalysis {
     }
     }
 
-    commands.window(Seconds(60)).foreachRDD {
+    commands.window(Seconds(60)).foreachRDD { rdd => {
       val sqlContext = SQLContext.getOrCreate(rdd.sparkContext)
       import sqlContext.implicits._
-      rdd => rdd.toDF().registerTempTable("commands")
+      rdd.toDF().registerTempTable("commands")
+      sqlContext.sql("select command, count(*) as invocation_count from commands group by command").show()
     }
-
-    try {
-      hc.sql("select command, count(*) as invocation_count from commands group by command").show()
     }
 
     ssc.start()
