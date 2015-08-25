@@ -10,7 +10,7 @@ This project contains a few simple examples of data processing with Apache Spark
 
 The examples are written in both Java and Scala for comparison (except for the Spark SQL examples, which are Scala-only). Spark also has a Python API which is currently not demonstrated in this project.
 
-A couple of simple scripts are provided to help launch the applications either in local execution mode (`spark-local.sh`) or distributed on YARN (`spark-yarn.sh`). These examples are designed to run on Spark 1.2.0+, and have been tested with the Spark 1.2.0 Technical Preview on HDP 2.2. It is possible to run most of these samples on older versions of Spark and HDP, but some of the configuration shown below may need to change.
+A couple of simple scripts are provided to help launch the applications either in local execution mode (`spark-local.sh`) or distributed on YARN (`spark-yarn.sh`). These examples are designed to run on Spark 1.3.1+, and have been tested with Spark on HDP 2.3.
 
 Running the Samples
 -------------------
@@ -46,3 +46,4 @@ Running the Samples
 | Scala White House Visitor Analysis | `spark-local.sh spark.ScalaWhiteHouseVisitorAnalysis whitehouse_visits.txt` | `spark-yarn.sh spark.ScalaWhiteHouseVisitorAnalysis hdfs:///<dir>/whitehouse_visits.txt` | Unzip `whitehouse_visits.zip`. For YARN, copy `whitehouse_visits.txt` to `<dir>` in HDFS |
 | Spark SQL from a text file | `./spark-local.sh spark.SparkSqlFromFile salarydata.txt` | `./spark-yarn.sh spark.SparkSqlFromFile hdfs:///<dir>/salarydata.txt` | For YARN, copy `salarydata.txt` to `<dir>` in HDFS |
 | Spark SQL from a Hive table | N/A | `./spark-yarn.sh spark.SparkSqlFromHive` | Copy `/etc/hive/conf/hive-site.xml` to `$SPARK_HOME/conf`. Run `hive -f salaries.sql` to create and load the `salaries` table in Hive. Make sure your $SPARK_HOME/conf directory contains `hive-site.xml`.|
+| Spark Streaming from Kafka | `./spark-yarn.sh spark.KafkaLogAnalysis` |`./spark-local.sh spark.KafkaLogAnalysis` | Assumes default Kafka configuration (broker port, etc.) as installed by Ambari. Create topic named 'hdfs-audit' in Kafka. Publish records from /var/log/hadoop/hdfs/hdfs-audit.log to the topic, using kafka-console-producer.sh |
