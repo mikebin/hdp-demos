@@ -35,7 +35,7 @@ object KafkaLogAnalysis {
     }
     }
 
-    commands.window(Seconds(20)).foreachRDD { (rdd, time) => {
+    commands.foreachRDD { (rdd, time) => {
       val sqlContext = SQLContext.getOrCreate(rdd.sparkContext)
       import sqlContext.implicits._
       rdd.toDF().registerTempTable("commands")
