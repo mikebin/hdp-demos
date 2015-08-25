@@ -1,2 +1,4 @@
 spark-app.jar
 whitehouse_visits.txt
+derby.log
+metastore_db/
