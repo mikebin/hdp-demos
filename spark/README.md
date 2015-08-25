@@ -7,6 +7,7 @@ This project contains a few simple examples of data processing with Apache Spark
 - simple application to find the top-N most frequent visits to the President from a White House visitor data set
 - Spark SQL from a text file
 - Spark SQL from a Hive table
+- Spark Streaming with Kafka
 
 The examples are written in both Java and Scala for comparison (except for the Spark SQL examples, which are Scala-only). Spark also has a Python API which is currently not demonstrated in this project.
 
@@ -19,22 +20,7 @@ Running the Samples
 
 * For running samples in local execution mode, install Spark locally. On OSX, a simple way to install Spark is with Homebrew: `brew install spark`
 
-* For running the samples on YARN, set the following environment variables if needed on the node where you plan to run the Spark YARN application:
-
-  ```
-  export YARN_CONF_DIR=/etc/hadoop/conf
-  export SPARK_HOME=/usr/lib/spark
-  export PATH=$PATH:$SPARK_HOME/bin
-  ```
-
-  Also, create or append to `$SPARK_HOME/conf/spark-defaults.conf` the following for HDP 2.2:
-
-  ```
-  spark.driver.extraJavaOptions    -Dhdp.version=2.2.0.0-2041
-  spark.yarn.am.extraJavaOptions   -Dhdp.version=2.2.0.0-2041
-  ```  
-  You will also need `spark-app.jar`, `spark-yarn.sh`, and any necessary input file(s) available on the node where you plan to launch the Spark on YARN application.
-  
+* For running the samples on YARN, you will need `spark-app.jar`, `spark-yarn.sh`, and any necessary input file(s) available on the node where you plan to launch the Spark on YARN application.
   
 * Run one of the following examples:
 
