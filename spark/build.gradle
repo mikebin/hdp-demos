@@ -3,7 +3,7 @@ project.ext.archiveName = 'spark-app.jar'
 buildscript {
   repositories { jcenter() }
   dependencies {
-    classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.0'
+    classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.2'
   }
 }
 
@@ -18,8 +18,8 @@ version = '0.0.1'
 
 description = """Spark Job"""
 
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 configurations {
   provided

@@ -1,14 +1,14 @@
 project.ext.archiveName = 'cascade.jar'
-project.ext.cascadingVersion = '3.0.0-wip-61'
-project.ext.scaldingVersion = '0.12.0'
-project.ext.luceneVersion = '4.10.1'
+project.ext.cascadingVersion = '3.0.2'
+project.ext.scaldingVersion = '0.15.0'
+project.ext.luceneVersion = '5.3.1'
 project.ext.cliVersion = '1.2'
-project.ext.hadoopVersion = '2.6.0'
+project.ext.hadoopVersion = '2.7.1'
 
 apply plugin: 'scala'
 
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 archivesBaseName = 'cascade'
 
