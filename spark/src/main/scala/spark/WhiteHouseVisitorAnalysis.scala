@@ -3,7 +3,7 @@ package spark
 import org.apache.spark.{SparkConf, SparkContext}
 import org.apache.spark.SparkContext._
 
-object ScalaWhiteHouseVisitorAnalysis {
+object WhiteHouseVisitorAnalysis {
   def main(args: Array[String]) {
     val optionArgs = args.lift
     val conf = new SparkConf().setAppName("Scala wh-visitor-analysis")
